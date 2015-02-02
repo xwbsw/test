@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<body>
+<script>
+  var lastid=0;
+  var c;
+  var t;
+  function timedCount()
+  {
+    document.getElementById("mid").innerHTML=Math.floor(c/100) + "\"" + c%100;
+    c=c+1;
+    t=setTimeout("timedCount()",10);
+  }
+
+  function StopCount()
+  {
+    clearTimeout(t);
+  }
+
+  function UpColorCount(no) {
+    x=document.getElementById(no);
+    x.style.background="white";
+  }
+  function ChangeColor(no) {
+    if (lastid==0) {
+      timedCount();
+    }
+    x=document.getElementById(no);
+    if(no!=(lastid+1)) {
+      x.style.background="red";
+    }
+    else {
+      x.style.background="green";
+      lastid=no;
+      if (lastid==25) {
+        StopCount();
+      }
+    }
+    setTimeout("UpColorCount("+no+")",100);
+  }
+  function Reset() {
+    e=document.getElementById("mid");
+    mid.innerHTML="0";
+    lastid=0;
+    c=0;
+    t;
+    boolist = new Array();
+    for(var i=1;i<=25;i++) {
+      boolist[i]="false";
+    }
+    var tbs=document.getElementById("tb");
+    var midstring="";
+    for(var i=1; i<=5; i++) {
+      midstring+="<tr>";
+      for(var k=1; k<=5; k++) {
+        var j=0;
+        while(1) {
+          j=Math.floor(Math.random() * ( 25 + 1));
+          if (boolist[j]=="false") {
+            boolist[j]="true";
+            break;
+          }
+        }
+        midstring+="<td>";
+        midstring+="<button id=\"" + j + "\" style=\"height:100px;width:100px;font-size:50px;border:none;background:white;\" type=\"button\" onmousedown=\"ChangeColor(" + j + ")\">" + j + "</button>";
+        midstring+="</td>";
+      }
+      midstring+="</tr>";
+    }
+    tbs.innerHTML=midstring;
+  }
+
+</script>
+
+<button id="reset" type="button" onclick="Reset()">Reset</button>
+<table id="tb" border="1" cellpadding="0">
+</table>
+<p id="mid">0</p>
+
+<script>
+  Reset();
+</script>
+</body>
+</html>
